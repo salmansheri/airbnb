@@ -5,10 +5,9 @@ import { SafeUser } from "@/types";
 import { Listing, Reservations, User } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { useCallback, useMemo } from "react";
-import { format } from 'date-fns';
+import { format } from 'date-fns'; 
 import Image from "next/image";
 import HeartButton from "../HeartButton";
-import Button from "../modal/Button";
 
 
 interface ListingCardProps {
@@ -17,7 +16,6 @@ interface ListingCardProps {
     onAction?: (id: string) => void; 
     disabled?: boolean; 
     actionId?:string; 
-    actionLabel?:string
     currentUser?: SafeUser | null; 
 
 
@@ -29,8 +27,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
     onAction,
     disabled,
     actionId = "",
-    currentUser,
-    actionLabel
+    currentUser
 }) => {
     const router = useRouter(); 
     const { getByValue } = useCountries(); 
@@ -46,15 +43,15 @@ const ListingCard: React.FC<ListingCardProps> = ({
         onAction?.(actionId); 
 
 
-    }, [onAction, actionId, disabled]);
+    }, [onAction, actionId, disabled]); 
 
     const price = useMemo(() => {
         if(reservation) {
-            return reservation.totalPrice;
+            return reservation.totalPrice; 
         }
 
         return data.price
-    }, [reservation, data.price]);
+    }, [reservation, data.price]); 
 
     const reservationData = useMemo(() => {
         if(!reservation) {
@@ -72,14 +69,14 @@ const ListingCard: React.FC<ListingCardProps> = ({
         <div onClick={() => router.push(`/listings/${data.id}`)} className="col-span-1 cursor-pointer group ">
             <div className="flex flex-col gap-2 w-full">
                 <div className="aspect-square w-full relative overflow-hidden rounded-xl">
-                    <Image
+                    <Image 
                         fill
                         alt="listing"
                         src={data.imageSrc}
                         className="object-cover h-full w-full group-hover:scale-110 transition"
                     />
                     <div className="absolute top-3 right-3">
-                        <HeartButton
+                        <HeartButton 
                             listingId={data.id}
                             currentUser={currentUser}
                         />
@@ -93,29 +90,8 @@ const ListingCard: React.FC<ListingCardProps> = ({
 
                 </div>
                 <div className="font-light text-neutral-500">
-                    {reservationData || data.category}
 
                 </div>
-                <div className="flex flex-row items-center gap-1">
-                    <div className="font-semibold">
-                        $ {price}
-
-                    </div>
-                    {!reservation && (
-                        <div className="font-light">
-                            night
-
-                        </div>
-                    )}
-                </div>
-                {onAction && actionLabel && (
-                    <Button 
-                        disabled={disabled}
-                        small
-                        label={actionLabel}
-                        onClick={handleCancel}
-                    />
-                )}
 
 
             </div>

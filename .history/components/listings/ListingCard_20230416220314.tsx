@@ -8,7 +8,6 @@ import { useCallback, useMemo } from "react";
 import { format } from 'date-fns';
 import Image from "next/image";
 import HeartButton from "../HeartButton";
-import Button from "../modal/Button";
 
 
 interface ListingCardProps {
@@ -17,7 +16,6 @@ interface ListingCardProps {
     onAction?: (id: string) => void; 
     disabled?: boolean; 
     actionId?:string; 
-    actionLabel?:string
     currentUser?: SafeUser | null; 
 
 
@@ -29,8 +27,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
     onAction,
     disabled,
     actionId = "",
-    currentUser,
-    actionLabel
+    currentUser
 }) => {
     const router = useRouter(); 
     const { getByValue } = useCountries(); 
@@ -101,21 +98,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
                         $ {price}
 
                     </div>
-                    {!reservation && (
-                        <div className="font-light">
-                            night
-
-                        </div>
-                    )}
                 </div>
-                {onAction && actionLabel && (
-                    <Button 
-                        disabled={disabled}
-                        small
-                        label={actionLabel}
-                        onClick={handleCancel}
-                    />
-                )}
 
 
             </div>
