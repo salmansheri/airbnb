@@ -6,9 +6,18 @@ import { useState, useCallback } from 'react';
 import MenuItem from './MenuItem';
 import useRegisterModal from '@/hooks/useRegisterModal';
 import useLoginModal from '@/hooks/userLoginModal';
-import LoginModal from '../modal/LoginModal';
+import { User } from '@prisma/client';
+import useRentModal from '@/hooks/useRentModal';
 
-const UserMenu = () => {
+interface UserMenuProps {
+    currentUser: User | null
+}
+
+const UserMenu: React.FC<UserMenuProps> = ({
+    currentUser
+}) => {
+    const rentModal = useRentModal(); 
+
 
     const [isOpen, setIsOpen] = useState(false); 
     const registerModal = useRegisterModal(); 
@@ -19,10 +28,18 @@ const UserMenu = () => {
         setIsOpen((value) => !value)
 
     },[])
+
+    const onRent = useCallback(() => {
+        // if(!currentUser) {
+        //     return loginModal.onOpen(); 
+        // }
+
+        rentModal.onOpen(); 
+    }, [loginModal, currentUser])
     return(
         <div className="relative">
             <div className="flex flex-row items-center gap-3">
-                <div onClick={() => {}} className="hidden md:block text-sm font-semibold py-3 px-4 rounded-full hover:bg-neutral-100 transition cursor-pointer">
+                <div onClick={onRent} className="hidden md:block text-sm font-semibold py-3 px-4 rounded-full hover:bg-neutral-100 transition cursor-pointer">
                     Airbnb Your Home
 
 
