@@ -10,7 +10,6 @@ import getCurrentUser from "./actions/getCurrentUser";
 
 
 
-
 export const metadata = {
   title: "Airbnb",
   description: "Airbnb Clone by salman",
@@ -27,10 +26,8 @@ export default async function RootLayout({
 }) {
 
   const currentUser = await getCurrentUser(); 
-  
 
-
- 
+  console.log(currentUser)
   
   return (
     <html lang="en">
@@ -39,11 +36,8 @@ export default async function RootLayout({
         <RentModal />
        <LoginModal />
        <RegisterModal />
-        <Navbar currentUser={currentUser}    />
-        <div className="pb-20 pt-28">
-
+        <Navbar currentUser={currentUser}   />
         {children}
-        </div>
       </body>
     </html>
   );

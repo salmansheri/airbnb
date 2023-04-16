@@ -100,11 +100,6 @@ const RentModal = () => {
         setStep(STEPS.CATEGORY)
         rentModal.onClose(); 
       })
-        .catch((err) => {
-          toast.error("Something Went Wrong")
-        }).finally(() => {
-          setIsLoading(false); 
-        })
  
 
   }
@@ -284,7 +279,7 @@ const RentModal = () => {
   return (
     <Modal
       isOpen={rentModal.isOpen}
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={onNext}
       title="Airbnb your  home"
       actionLabel={actionLabel}
       secondaryActionLabel={secondaryActionLabel}

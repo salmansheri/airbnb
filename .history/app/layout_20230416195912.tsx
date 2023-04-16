@@ -26,8 +26,9 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
 
-  const currentUser = await getCurrentUser(); 
-  
+  const currentUser = getCurrentUser(); 
+  console.log(currentUser)
+
 
 
  
@@ -39,11 +40,8 @@ export default async function RootLayout({
         <RentModal />
        <LoginModal />
        <RegisterModal />
-        <Navbar currentUser={currentUser}    />
-        <div className="pb-20 pt-28">
-
+        <Navbar    />
         {children}
-        </div>
       </body>
     </html>
   );

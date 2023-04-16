@@ -86,7 +86,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
                             />
                             <hr />
                             <MenuItem 
-                                label="Sign out"
+                                label="My Reservations"
                                 onClick={() => signOut()}
                             />
                             
