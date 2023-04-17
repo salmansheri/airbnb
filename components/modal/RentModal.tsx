@@ -15,9 +15,7 @@ import ImageUpload from "../inputs/ImageUpload";
 import Input from "../inputs/Input";
 import axios from "axios";
 import { toast } from "react-hot-toast";
-import { useRouter } from 'next/navigation'; 
-
-
+import { useRouter } from "next/navigation";
 
 enum STEPS {
   CATEGORY = 0,
@@ -30,10 +28,10 @@ enum STEPS {
 
 const RentModal = () => {
   const rentModal = useRentModal();
-  const router = useRouter(); 
+  const router = useRouter();
 
   const [step, setStep] = useState(STEPS.CATEGORY);
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
 
   const {
     register,
@@ -58,16 +56,18 @@ const RentModal = () => {
 
   const category = watch("category");
   const location = watch("location");
-  const guestCount = watch('guestCount'); 
-  const roomCount = watch('roomCount')
-  const bathroomCount = watch('bathroomCount'); 
-  const imageSrc = watch('imageSrc'); 
+  const guestCount = watch("guestCount");
+  const roomCount = watch("roomCount");
+  const bathroomCount = watch("bathroomCount");
+  const imageSrc = watch("imageSrc");
 
-  
-  const Map = useMemo(() => dynamic(() => import('../Map'), {
-    ssr: false
-  }), [location])
-
+  const Map = useMemo(
+    () =>
+      dynamic(() => import("../Map"), {
+        ssr: false,
+      }),
+    [location]
+  );
 
   const setCustomValue = (id: string, value: any) => {
     setValue(id, value, {
@@ -86,28 +86,27 @@ const RentModal = () => {
   };
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    if(step!==STEPS.PRICE) {
-      return onNext(); 
-
+    if (step !== STEPS.PRICE) {
+      return onNext();
     }
 
     setIsLoading(true);
-    await axios.post('/api/listings', data)
+    await axios
+      .post("/api/listings", data)
       .then(() => {
-        toast.success("Listing Created!")
-        router.refresh(); 
-        reset(); 
-        setStep(STEPS.CATEGORY)
-        rentModal.onClose(); 
+        toast.success("Listing Created!");
+        router.refresh();
+        reset();
+        setStep(STEPS.CATEGORY);
+        rentModal.onClose();
       })
-        .catch((err) => {
-          toast.error("Something Went Wrong")
-        }).finally(() => {
-          setIsLoading(false); 
-        })
- 
-
-  }
+      .catch((err) => {
+        toast.error("Something Went Wrong");
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
 
   const actionLabel = useMemo(() => {
     if (step === STEPS.PRICE) {
@@ -155,23 +154,18 @@ const RentModal = () => {
         />
         <div className="mt-5">
           <CountrySelect
-          value={location}
-            onChange={(value) => setCustomValue('location', value)}
+            value={location}
+            onChange={(value) => setCustomValue("location", value)}
           />
-          <div className='mt-5'>
-          <Map
-            center={location?.lating}
-          />
-
+          <div className="mt-5">
+            <Map center={location?.lating} />
           </div>
-
         </div>
       </div>
     );
   }
 
-
-  if(step === STEPS.INFO) {
+  if (step === STEPS.INFO) {
     bodyContent = (
       <div className="flex flex-col gap-8">
         <Heading
@@ -179,65 +173,56 @@ const RentModal = () => {
           subtitle="What amenities do you have"
         />
 
-        <Counter title="Guests"
+        <Counter
+          title="Guests"
           subtitle="How Many Guests"
           value={guestCount}
-         
           onChange={(value) => setCustomValue("guestCount", value)}
         />
         <hr />
-        <Counter title="Rooms"
+        <Counter
+          title="Rooms"
           subtitle="How Many Rooms do you have"
           value={roomCount}
-         
           onChange={(value) => setCustomValue("roomCount", value)}
         />
         <hr />
-        <Counter title="Bathrooms"
+        <Counter
+          title="Bathrooms"
           subtitle="How Many Bathrooms do you have"
           value={bathroomCount}
-         
           onChange={(value) => setCustomValue("bathroomCount", value)}
         />
-
       </div>
-    )
+    );
   }
 
-  if(step === STEPS.IMAGES) {
-   bodyContent= (
-    <div>
-      
-      <Heading 
-        title="Add a Photo of your place"
-
-        subtitle="Show guests what your place looks like!"
-      />
-      <div className="mt-5">
-      <ImageUpload 
-        value={imageSrc}
-        onChange={(value) => setCustomValue('imageSrc', value)}
-
-      />
-
+  if (step === STEPS.IMAGES) {
+    bodyContent = (
+      <div>
+        <Heading
+          title="Add a Photo of your place"
+          subtitle="Show guests what your place looks like!"
+        />
+        <div className="mt-5">
+          <ImageUpload
+            value={imageSrc}
+            onChange={(value) => setCustomValue("imageSrc", value)}
+          />
+        </div>
       </div>
-
-      
-    </div>
-   )
+    );
   }
 
-
-  if(step === STEPS.DESCRIPTION) {
+  if (step === STEPS.DESCRIPTION) {
     bodyContent = (
       <div className="flex flex-col gap-8">
-        <Heading 
+        <Heading
           title="How Would you describe your place?"
-
           subtitle="Short and sweet works best!"
         />
 
-        <Input 
+        <Input
           id="title"
           label="title"
           disabled={isLoading}
@@ -246,7 +231,7 @@ const RentModal = () => {
           required
         />
         <hr />
-        <Input 
+        <Input
           id="description"
           label="Description"
           disabled={isLoading}
@@ -255,19 +240,18 @@ const RentModal = () => {
           required
         />
       </div>
-
-    )
+    );
   }
 
-  if(step === STEPS.PRICE) {
+  if (step === STEPS.PRICE) {
     bodyContent = (
       <div className="flex flex-col gap-8">
-        <Heading 
+        <Heading
           title="Now, set Your price"
           subtitle="How much do you charge per night? "
         />
 
-        <Input 
+        <Input
           id="price"
           label="Price"
           formatPrice
@@ -277,9 +261,8 @@ const RentModal = () => {
           errors={errors}
           required
         />
-
       </div>
-    )
+    );
   }
   return (
     <Modal

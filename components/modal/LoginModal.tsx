@@ -5,7 +5,7 @@ import { AiFillGithub } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
 import { useCallback, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import { signIn } from 'next-auth/react'; 
+import { signIn } from "next-auth/react";
 
 import useLoginModal from "@/hooks/userLoginModal";
 import Modal from "./Modal";
@@ -14,12 +14,12 @@ import Input from "../inputs/Input";
 import { toast } from "react-hot-toast";
 import Button from "./Button";
 import useRegisterModal from "@/hooks/useRegisterModal";
-import { useRouter } from 'next/navigation'; 
+import { useRouter } from "next/navigation";
 
 const LoginModal = () => {
   const loginModal = useLoginModal();
-  const registerModal = useRegisterModal(); 
-  const router = useRouter() 
+  const registerModal = useRegisterModal();
+  const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(false);
   const {
@@ -28,7 +28,6 @@ const LoginModal = () => {
     formState: { errors },
   } = useForm<FieldValues>({
     defaultValues: {
-      
       email: "",
       password: "",
     },
@@ -50,39 +49,33 @@ const LoginModal = () => {
     //   .finally(() => {
     //     setIsLoading(false);
     //   });
-    signIn('credentials', {
-      ...data, 
+    signIn("credentials", {
+      ...data,
       redirect: false,
     }).then((callback) => {
-      setIsLoading(false); 
-      if(callback?.ok) {
-        toast.success("Login successfull")
-        
-        loginModal.onClose(); 
-        router.refresh(); 
+      setIsLoading(false);
+      if (callback?.ok) {
+        toast.success("Login successfull");
 
-        
+        loginModal.onClose();
+        router.refresh();
       }
 
-      if(callback?.error) {
-        toast.error(callback.error); 
-        
+      if (callback?.error) {
+        toast.error(callback.error);
       }
-    })
+    });
   };
 
   const Toggle = useCallback(() => {
-    loginModal.onClose(); 
-    registerModal.onOpen(); 
-
-
-  }, [loginModal, registerModal])
+    loginModal.onClose();
+    registerModal.onOpen();
+  }, [loginModal, registerModal]);
 
   const bodyContent = (
     <div className="flex flex-col gap-4">
       <Heading title="Welcome back" subtitle="Login to your Account" />
 
-     
       <Input
         type="email"
         id="email"
@@ -120,16 +113,14 @@ const LoginModal = () => {
         icon={AiFillGithub}
         onClick={() => {}}
       />
-      <div className="text-neutral-500 text-center mt-4 font-light">
-
-      </div>
+      <div className="text-neutral-500 text-center mt-4 font-light"></div>
       <div className="flex flex-row items-center gap-2 text-center">
-
-        <div>
-           First time using Airbnb? 
-        </div>
-        <div onClick={Toggle} className='text-neutral-800 cursor-pointer hover:underline'>
-           Register
+        <div>First time using Airbnb?</div>
+        <div
+          onClick={Toggle}
+          className="text-neutral-800 cursor-pointer hover:underline"
+        >
+          Register
         </div>
       </div>
     </div>

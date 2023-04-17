@@ -1,43 +1,43 @@
 import NextAuth, { AuthOptions } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google'
-import GithubProvider from 'next-auth/providers/github'; 
+import GithubProvider from 'next-auth/providers/github';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
-import bcrypt from 'bcrypt'; 
+import bcrypt from 'bcrypt';
 
 
-import prisma from '@/libs/prismaDB'; 
+import prisma from '@/libs/prismaDB';
 
 
 export const authOptions: AuthOptions = {
-    adapter: PrismaAdapter(prisma), 
+    adapter: PrismaAdapter(prisma),
     providers: [
         GithubProvider({
-            clientId: process.env.GITHUB_ID as string, 
+            clientId: process.env.GITHUB_ID as string,
             clientSecret: process.env.GITHUB_SECRET as string
-        }), 
+        }),
         GoogleProvider({
             clientId: process.env.GOOGLE_CLIENT_ID as string,
             clientSecret: process.env.GOOGLE_CLIENT_SECRET as string
-        }), 
+        }),
         CredentialsProvider({
             name: 'credentials',
             credentials: {
-                email: { label: 'email', type: 'email'},
-                password: {label: 'password', type: 'password'}
-            }, 
+                email: { label: 'email', type: 'email' },
+                password: { label: 'password', type: 'password' }
+            },
             async authorize(credentials) {
-                if(!credentials?.email || !credentials?.password) {
+                if (!credentials?.email || !credentials?.password) {
                     throw new Error("Invalid credentials")
                 }
-                const user  = await prisma.user.findUnique({
+                const user = await prisma.user.findUnique({
                     where: {
                         email: credentials.email
                     }
-                }); 
+                });
 
-                if(!user && user.password === credentials?.password) {
+                if (!user && user.password === credentials?.password) {
                     throw new Error('Invalid Credentials')
                 }
 
@@ -51,22 +51,22 @@ export const authOptions: AuthOptions = {
 
                 // }
 
-                return user; 
+                return user;
             }
 
         })
-    ], 
+    ],
     pages: {
         signIn: '/'
-    }, 
+    },
     debug: process.env.NODE_ENV === "development",
     session: {
         strategy: "jwt",
     },
-    
-    secret: process.env.NEXTAUTH_SECRET, 
+
+    secret: process.env.NEXTAUTH_SECRET,
 }
 
-export default NextAuth(authOptions); 
+export default NextAuth(authOptions);
 
 
