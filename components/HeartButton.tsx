@@ -1,5 +1,6 @@
 "use client";
 
+import useFavorite from "@/hooks/useFavorites";
 import { SafeUser } from "@/types";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 
@@ -12,8 +13,13 @@ const HeartButton: React.FC<HeartButtonProps> = ({
   listingId,
   currentUser,
 }) => {
-  const hasFavorite = false;
-  const toggleFavorite = () => {};
+ 
+ const { hasFavorite, toggleFavorite } = useFavorite({
+  // @ts-ignore
+  listingId, 
+  currentUser
+ }); 
+
 
   return (
     <div
