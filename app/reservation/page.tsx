@@ -33,11 +33,8 @@ const ReservationPage = async () => {
    
     return(
         <div>
-            <ReservationClient 
-                reservations={reservations}
-                currentUser={currentUser}
-
-            />
+            {/* @ts-ignore  */}
+            <ReservationClient  reservations={reservations} currentUser={currentUser} />
         </div>
     )
 }

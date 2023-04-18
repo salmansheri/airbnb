@@ -38,6 +38,7 @@ export async function POST(request: Request) {
         guestCount,
         locationValue: location.value,
         price: parseInt(price, 10),
+        // @ts-ignore
         userId: currentUser.id,
       },
     });

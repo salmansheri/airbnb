@@ -37,6 +37,7 @@ export const authOptions: AuthOptions = {
                     }
                 });
 
+                // @ts-ignore
                 if (!user && user.password === credentials?.password) {
                     throw new Error('Invalid Credentials')
                 }

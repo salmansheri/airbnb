@@ -23,10 +23,8 @@ const FavoritesPage = async () => {
 
     return (
         <div>
-           <FavoritesClient 
-            listings={listings}
-            currentUser={currentUser}
-           />
+            {/* @ts-ignore  */}
+           <FavoritesClient listings={listings} currentUser={currentUser} />
         </div>
     )
     

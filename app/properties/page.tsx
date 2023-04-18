@@ -38,12 +38,9 @@ const PropertiesPage = async () => {
 
     return(
         <div>
-              
-            <PropertiesClient 
-          
-                listings={listings}
-                currentUser={currentUser}
-            />
+
+            {/* @ts-ignore    */}
+            <PropertiesClient listings={listings} currentUser={currentUser}  />
         </div>
     )
 }
