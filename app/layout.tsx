@@ -7,6 +7,7 @@ import ToasterProvider from "@/providers/ToasterProvider";
 import LoginModal from "@/components/modal/LoginModal";
 import RentModal from "@/components/modal/RentModal";
 import getCurrentUser from "./actions/getCurrentUser";
+import SearchModal from "@/components/modal/SearchModal";
 
 
 
@@ -36,6 +37,7 @@ export default async function RootLayout({
     <html lang="en">
       <body className={font.className}>
         <ToasterProvider />
+        <SearchModal />
         <RentModal />
        <LoginModal />
        <RegisterModal />

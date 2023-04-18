@@ -1,7 +1,7 @@
 "use client";
 
 import { Reservations } from "@prisma/client";
-import { SafeListing, SafeUser } from "@/types";
+import { SafeListing, SafeReservations, SafeUser } from "@/types";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter } from 'next/navigation'; 
 import { differenceInCalendarDays,  eachDayOfInterval } from "date-fns";
@@ -26,7 +26,7 @@ const initialDateRange = {
 }
 
 interface ListingClientProps {
-  reservations: Reservations[];
+  reservations: SafeReservations[]; 
   listing: SafeListing & {
     user: SafeUser;
   };
@@ -78,12 +78,13 @@ const ListingClient: React.FC<ListingClientProps> = ({
         toast.success("Listing Reserved!"); 
         setDateRange(initialDateRange); 
         // Redirect to /trips
-        router.refresh(); 
+        router.push("/trips"); 
 
       })
       .catch((err) => {
         
         toast.error("something went wrong")
+        loginModal.onOpen(); 
       })
       .finally(() => {
         setIsLoading(false)
